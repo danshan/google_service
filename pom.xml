@@ -9,6 +9,7 @@
   
   <packaging>pom</packaging>
   <modules>
+    <module>google_core</module>
     <module>google_contacts</module>
   </modules>
   
