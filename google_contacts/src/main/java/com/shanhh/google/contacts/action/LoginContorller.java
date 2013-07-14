@@ -2,6 +2,7 @@ package com.shanhh.google.contacts.action;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.HttpTransport;
@@ -22,10 +24,27 @@ import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactFeed;
 import com.google.gdata.util.ServiceException;
 import com.shanhh.google.contacts.config.ServiceConfig;
+import com.shanhh.google.core.common.Logger;
 
 @Controller
 public class LoginContorller {
 
+    private static final Logger logger = Logger.getLogger(LoginContorller.class);
+
+    @RequestMapping("login")
+    public String login(HttpServletRequest request) throws ParseException {
+        List<String> scopes = new ArrayList<String>();
+        scopes.add("https://www.google.com/m8/feeds");
+        
+        // Generate the URL to which we will direct users
+        String authorizeUrl = new GoogleAuthorizationCodeRequestUrl(
+                ServiceConfig.get("contacts.client.id"),
+                ServiceConfig.get("oauth2.code.callback.url"), scopes).build();
+
+        logger.debug("redirect to google login page: " + authorizeUrl);
+        return "redirect:" + authorizeUrl;
+    }
+    
     @RequestMapping("oauth2callback")
     public String callback(HttpServletRequest request) throws IOException, ServiceException {
         
@@ -38,13 +57,16 @@ public class LoginContorller {
         contactsService.useSsl();
         contactsService.setHeader("GData-Version", "3.0");
         
-        
         ContactFeed resultFeed = contactsService.getFeed(new URL("http://www.google.com/m8/feeds/contacts/default/full"), ContactFeed.class);
         
-
         for (ContactEntry feed : resultFeed.getEntries()) {
             System.err.println(feed.getTitle().getPlainText());
         }
+        System.out.println("perpage:" + resultFeed.getItemsPerPage());
+        System.out.println("total:" + resultFeed.getTotalResults());
+        System.out.println("selflink:" + resultFeed.getSelfLink());
+        System.out.println("next:" + resultFeed.getNextLink().getHref());
+        System.out.println("previous:" + resultFeed.getPreviousLink());
         
         return "";
     }

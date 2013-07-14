@@ -25,4 +25,4 @@
 /test-output
 
 **/gen-java
-
+**/src/main/resources/contacts.properties
