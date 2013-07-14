@@ -1,24 +1,38 @@
 ;
 (function() {
-    var modBtn = $('.j-modify');
+    var td = $('.j-familyName');
 
-    modBtn.click(function() {
-        var tr = $(this).parent().parent();
+    td.dblclick(function() {
         
-        var tdFamilyName = tr.find('.j-familyName');
-        
-        if (tdFamilyName.html().indexOf('<input') === -1) {
-            $(this).removeClass("icon-edit").addClass("icon-ok");
-            tdFamilyName.html('<input type="text" value="' + tdFamilyName.html() + '" />');
+        var field=$(this);
+        if (field.html().indexOf('<input') === -1) {
+            field.html('<input type="text" class="input-small" value="' + field.html() + '" />');
         } else {
             /*
              * $.get('xxxx',function(result){ ... });
              * 
              * 
              */
-            $(this).removeClass("icon-user").addClass("icon-edit");
-            tdFamilyName.html(tdFamilyName.find('input').val());
+            field.html(field.find('input').val());
         }
+    });
+
+})();
+
+(function() {
+    var btn = $('#j-query-btn');
+    btn.click(function() {
+        
+        $.ajax({
+            url: 'query',
+            data: {
+                query: $('#j-query-text').val()   
+            },
+            success: function(result) { 
+                $('#contactlist').html(result);
+            }
+        });
+        
     });
 
 })();

@@ -21,10 +21,9 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.gdata.client.contacts.ContactsService;
-import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.util.ServiceException;
 import com.shanhh.google.contacts.config.ServiceConfig;
-import com.shanhh.google.contacts.service.ContactsListService;
+import com.shanhh.google.contacts.service.ContactsOperService;
 import com.shanhh.google.core.common.Logger;
 
 @Controller
@@ -33,7 +32,7 @@ public class LoginContorller {
     private static final Logger logger = Logger.getLogger(LoginContorller.class);
 
     @Autowired
-    private ContactsListService contactsListService;
+    private ContactsOperService contactsListService;
     
     @RequestMapping("login")
     public String login(HttpServletRequest request) throws ParseException {
@@ -63,11 +62,9 @@ public class LoginContorller {
         
         request.getSession().setAttribute("contactsService", contactsService);
         
-//        List<ContactEntry> list = contactsListService.listAll(contactsService);
-        List<ContactEntry> list = contactsListService.list(contactsService, null).getEntries();
-        model.addAttribute("contactList", list);
-        return "list";
+        return "index";
     }
+    
     /**
      * Exchange an authorization code for OAuth 2.0 credentials.
      *
@@ -96,7 +93,7 @@ public class LoginContorller {
      * @throws IOException
      *         Unable to load client_secrets.json.
      */
-    static GoogleAuthorizationCodeFlow getFlow() throws IOException {
+    private GoogleAuthorizationCodeFlow getFlow() throws IOException {
         List<String> scopes = new ArrayList<String>();
         scopes.add("https://www.google.com/m8/feeds");
         

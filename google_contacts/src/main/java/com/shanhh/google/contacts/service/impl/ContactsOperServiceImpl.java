@@ -13,23 +13,27 @@ import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactFeed;
 import com.google.gdata.util.ServiceException;
 import com.shanhh.google.contacts.config.Constant;
-import com.shanhh.google.contacts.service.ContactsListService;
+import com.shanhh.google.contacts.service.ContactsOperService;
 import com.shanhh.google.core.common.Logger;
+import com.shanhh.google.core.common.SuperString;
 
 @Service
-public class ContactsListServiceImpl implements ContactsListService {
+public class ContactsOperServiceImpl implements ContactsOperService {
 
-    private static final Logger logger = Logger.getLogger(ContactsListServiceImpl.class);
+    private static final Logger logger = Logger.getLogger(ContactsOperServiceImpl.class);
     
     @Override
-    public List<ContactEntry> listAll(ContactsService contactsService) throws IOException, ServiceException {
+    public List<ContactEntry> listAll(ContactsService contactsService, URL feedUrl) throws IOException, ServiceException {
         
         Preconditions.checkNotNull(contactsService);
+        if (feedUrl == null) {
+            feedUrl = new URL(Constant.CONTACTS_FEED_URL);
+        }
         
         List<ContactEntry> contactsList = new LinkedList<ContactEntry>();
         
         // first page
-        ContactFeed resultFeed = list(contactsService, new URL(Constant.CONTACTS_FEED_URL));
+        ContactFeed resultFeed = list(contactsService, feedUrl);
         contactsList.addAll(resultFeed.getEntries());
         
         while (resultFeed.getNextLink() != null) {
@@ -52,6 +56,32 @@ public class ContactsListServiceImpl implements ContactsListService {
         ContactFeed resultFeed = contactsService.getFeed(feedUrl, ContactFeed.class);
         return resultFeed;
         
+    }
+
+    @Override
+    public List<ContactEntry> query(ContactsService contactsService, String query) throws IOException, ServiceException {
+        
+        Preconditions.checkNotNull(contactsService);
+        if (SuperString.isBlank(query)) {
+            return listAll(contactsService, null);
+        }
+        
+        URL feedUrl = new URL(Constant.CONTACTS_FEED_URL + "?q=" + query);
+        
+        logger.info("query contacts: {0}", query);
+        
+        List<ContactEntry> contactsList = new LinkedList<ContactEntry>();
+        
+        // first page
+        ContactFeed resultFeed = list(contactsService, feedUrl);
+        contactsList.addAll(resultFeed.getEntries());
+        
+        while (resultFeed.getNextLink() != null) {
+            resultFeed = list(contactsService, new URL(resultFeed.getNextLink().getHref()));
+            contactsList.addAll(resultFeed.getEntries());
+        }
+        
+        return contactsList;
     }
     
 }

@@ -10,7 +10,7 @@ import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactFeed;
 import com.google.gdata.util.ServiceException;
 
-public interface ContactsListService {
+public interface ContactsOperService {
 
     /**
      * 获取全部联系人列表
@@ -23,7 +23,7 @@ public interface ContactsListService {
      * @throws ServiceException 
      * @throws IOException 
      */
-    public List<ContactEntry> listAll(ContactsService contactsService) throws MalformedURLException, IOException, ServiceException;
+    public List<ContactEntry> listAll(ContactsService contactsService, URL feedUrl) throws MalformedURLException, IOException, ServiceException;
     
     /**
      * 获取指定页的联系人列表
@@ -37,4 +37,6 @@ public interface ContactsListService {
      * @throws ServiceException
      */
     public ContactFeed list(ContactsService contactsService, URL feedUrl) throws IOException, ServiceException;
+    
+    public List<ContactEntry> query(ContactsService contactsService, String query) throws MalformedURLException, IOException, ServiceException;
 }
