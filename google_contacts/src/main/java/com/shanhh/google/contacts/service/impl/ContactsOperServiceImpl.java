@@ -11,6 +11,9 @@ import com.google.common.base.Preconditions;
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactFeed;
+import com.google.gdata.data.extensions.FamilyName;
+import com.google.gdata.data.extensions.GivenName;
+import com.google.gdata.data.extensions.Name;
 import com.google.gdata.util.ServiceException;
 import com.shanhh.google.contacts.config.Constant;
 import com.shanhh.google.contacts.service.ContactsOperService;
@@ -80,8 +83,56 @@ public class ContactsOperServiceImpl implements ContactsOperService {
             resultFeed = list(contactsService, new URL(resultFeed.getNextLink().getHref()));
             contactsList.addAll(resultFeed.getEntries());
         }
-        
         return contactsList;
     }
-    
+
+    @Override
+    public ContactEntry update(ContactsService contactsService, String contactId, String field, String value) throws IOException, ServiceException {
+        
+        Preconditions.checkNotNull(contactsService);
+        Preconditions.checkNotNull(contactId);
+        Preconditions.checkNotNull(field);
+        
+        System.out.println(Constant.CONTACTS_FEED_URL + "/" + contactId);
+        URL feedUrl = new URL(Constant.CONTACTS_FEED_URL + "/" + contactId);
+        
+        logger.info("update contact, contactId={0}, {1} = {2}", contactId, field, value);
+        
+        ContactEntry contactToBeUpdate = contactsService.getEntry(feedUrl, ContactEntry.class);
+        if ("familyname".equals(field)) {
+            Name name = contactToBeUpdate.getName();
+            if (name == null) {
+                name = new Name();
+                contactToBeUpdate.setName(name);
+            }
+            FamilyName fname = contactToBeUpdate.getName().getFamilyName();
+            if (fname == null) {
+                fname = new FamilyName();
+                contactToBeUpdate.getName().setFamilyName(fname);
+            }
+            
+            contactToBeUpdate.getName().getFamilyName().setValue(value);
+        } else if ("givenname".equals(field)) {
+            Name name = contactToBeUpdate.getName();
+            if (name == null) {
+                name = new Name();
+                contactToBeUpdate.setName(name);
+            }
+            GivenName gname = contactToBeUpdate.getName().getGivenName();
+            if (gname == null) {
+                gname = new GivenName();
+                contactToBeUpdate.getName().setGivenName(gname);
+            }
+            
+            contactToBeUpdate.getName().getGivenName().setValue(value);
+        } else {
+            return contactToBeUpdate;
+        }
+        
+        URL editUrl = new URL(contactToBeUpdate.getEditLink().getHref());
+        ContactEntry updated = contactsService.update(editUrl, contactToBeUpdate);
+        
+        return updated;
+    }
+
 }

@@ -39,4 +39,20 @@ public interface ContactsOperService {
     public ContactFeed list(ContactsService contactsService, URL feedUrl) throws IOException, ServiceException;
     
     public List<ContactEntry> query(ContactsService contactsService, String query) throws MalformedURLException, IOException, ServiceException;
+    
+    /**
+     * 更新联系人信息
+     * @author dan.shan
+     * @since Jul 15, 2013 1:28:25 PM
+     *
+     * @param contactService
+     * @param field
+     * @param value
+     * @throws MalformedURLException 
+     * @throws ServiceException 
+     * @throws IOException 
+     * @throws  
+     * @throws SecurityException 
+     */
+    ContactEntry update(ContactsService contactsService, String contactId, String field, String value) throws IOException, ServiceException;
 }
