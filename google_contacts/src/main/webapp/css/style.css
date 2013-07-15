@@ -5,3 +5,10 @@
     height: 20px;
     background: url("../img/icon/groups.png") no-repeat 0px 0px;
 }
+
+.j-input-small {
+	height: 14px;
+	width: 60px;
+	margin-bottom: 0px;
+	padding: 2px;
+}
