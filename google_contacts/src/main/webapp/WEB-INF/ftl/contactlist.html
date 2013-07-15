@@ -12,9 +12,14 @@
   <tbody>
     <#list contactlist as contact>
       <tr>
+        <!-- checkbox -->
         <td><input type="checkbox"><input type="hidden" name="contactId" value="${(contact.id)!}"></td>
+        <!-- family name -->
         <td class="j-familyName">${(contact.name.familyName.value)!}</td>
+        <!-- given name -->
         <td class="j-givenName">${(contact.name.givenName.value)!}</td>
+        
+        <!-- mail -->
         <td>
           <#if contact.emailAddresses?exists>
             <#list contact.emailAddresses as email>
@@ -27,6 +32,8 @@
             </#list>
           </#if>
         </td>
+        
+        <!-- mobile -->
         <td>
           <#if contact.phoneNumbers?exists>
             <#list contact.phoneNumbers as phone >

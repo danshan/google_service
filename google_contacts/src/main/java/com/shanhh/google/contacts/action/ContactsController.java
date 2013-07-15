@@ -18,6 +18,7 @@ import com.shanhh.google.contacts.service.ContactsOperService;
 import com.shanhh.google.core.common.Logger;
 
 @Controller
+@RequestMapping("contacts")
 public class ContactsController {
     
     private static final Logger logger = Logger.getLogger(ContactsController.class);

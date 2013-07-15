@@ -12,7 +12,8 @@
                       contactId = contactId.substring(contactId.lastIndexOf('/') + 1);
                       var value = $(this).val();
                       
-                      $.get('update?contactId=' + contactId + "&field=" + fieldname + '&value=' + value, function(){} );
+                      $.get('update?contactId=' + contactId + "&field=" + fieldname + '&value=' + value, 
+                              function(){} );
                       field.html(field.find('input').val());
                   }
                 });
@@ -27,17 +28,10 @@
     dblClickHandler('.j-givenName', 'givenname');
     
     $('#j-query-btn').click(function() {
-        
-        $.ajax({
-            url: 'query',
-            data: {
-                query: $('#j-query-text').val()   
-            },
-            success: function(result) { 
-                $('#contactlist').html(result);
-            }
-        });
-        
+        $.get('contacts/query?query=' + $('#j-query-text').val(),
+                function(result) { 
+                    $('#contactlist').html(result);
+                });
     });
     
 })();
