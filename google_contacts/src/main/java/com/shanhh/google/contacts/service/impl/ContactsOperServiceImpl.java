@@ -55,7 +55,7 @@ public class ContactsOperServiceImpl implements ContactsOperService {
             feedUrl = new URL(Constant.CONTACTS_FEED_URL);
         }
         
-        logger.info("list contacts: {0}", feedUrl.getPath() + feedUrl.getQuery());
+        logger.info("list contacts: {0}", feedUrl.getQuery());
         ContactFeed resultFeed = contactsService.getFeed(feedUrl, ContactFeed.class);
         return resultFeed;
         
@@ -110,7 +110,12 @@ public class ContactsOperServiceImpl implements ContactsOperService {
                 contactToBeUpdate.getName().setFamilyName(fname);
             }
             
-            contactToBeUpdate.getName().getFamilyName().setValue(value);
+            if (SuperString.isBlank(value)) {
+                contactToBeUpdate.getName().setFamilyName(null);
+            } else {
+                contactToBeUpdate.getName().getFamilyName().setValue(value.trim());;
+            }
+            
         } else if ("givenname".equals(field)) {
             Name name = contactToBeUpdate.getName();
             if (name == null) {
@@ -123,7 +128,11 @@ public class ContactsOperServiceImpl implements ContactsOperService {
                 contactToBeUpdate.getName().setGivenName(gname);
             }
             
-            contactToBeUpdate.getName().getGivenName().setValue(value);
+            if (SuperString.isBlank(value)) {
+                contactToBeUpdate.getName().setGivenName(null);
+            } else {
+                contactToBeUpdate.getName().getGivenName().setValue(value.trim());;
+            }
         } else {
             return contactToBeUpdate;
         }

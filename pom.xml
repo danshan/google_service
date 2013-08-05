@@ -17,7 +17,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring.version>3.2.2.RELEASE</spring.version>
     <google.version>1.15.0-rc</google.version>
-    <jackson.version>1.9.13</jackson.version>
+    <jackson.version>1.7.9</jackson.version>
     <freemarker.version>2.3.20</freemarker.version>
     <log4j.version>1.2.17</log4j.version>
     <google.gdata.version>1.47.1</google.gdata.version>

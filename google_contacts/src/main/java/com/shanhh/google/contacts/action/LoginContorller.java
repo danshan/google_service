@@ -1,7 +1,6 @@
 package com.shanhh.google.contacts.action;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.HttpTransport;
@@ -34,20 +32,6 @@ public class LoginContorller {
     @Autowired
     private ContactsOperService contactsListService;
     
-    @RequestMapping("login")
-    public String login(HttpServletRequest request) throws ParseException {
-        List<String> scopes = new ArrayList<String>();
-        scopes.add("https://www.google.com/m8/feeds");
-        
-        // Generate the URL to which we will direct users
-        String authorizeUrl = new GoogleAuthorizationCodeRequestUrl(
-                ServiceConfig.get("contacts.client.id"),
-                ServiceConfig.get("oauth2.code.callback.url"), scopes).build();
-
-        logger.info("redirect to google login page: " + authorizeUrl);
-        return "redirect:" + authorizeUrl;
-    }
-    
     @RequestMapping("oauth2callback")
     public String callback(Model model, HttpServletRequest request) throws IOException, ServiceException {
         
@@ -62,7 +46,7 @@ public class LoginContorller {
         
         request.getSession().setAttribute("contactsService", contactsService);
         
-        return "index";
+        return "redirect:index";
     }
     
     /**
