@@ -93,7 +93,6 @@ public class ContactsOperServiceImpl implements ContactsOperService {
         Preconditions.checkNotNull(contactId);
         Preconditions.checkNotNull(field);
         
-        System.out.println(Constant.CONTACTS_FEED_URL + "/" + contactId);
         URL feedUrl = new URL(Constant.CONTACTS_FEED_URL + "/" + contactId);
         
         logger.info("update contact, contactId={0}, {1} = {2}", contactId, field, value);
@@ -133,6 +132,19 @@ public class ContactsOperServiceImpl implements ContactsOperService {
         ContactEntry updated = contactsService.update(editUrl, contactToBeUpdate);
         
         return updated;
+    }
+
+    @Override
+    public ContactEntry get(ContactsService contactsService, String contactId) throws IOException, ServiceException {
+        Preconditions.checkNotNull(contactsService);
+        Preconditions.checkNotNull(contactId);
+        
+        URL feedUrl = new URL(Constant.CONTACTS_FEED_URL + "/" + contactId);
+        
+        logger.info("get contact, contactId={0}", contactId);
+        
+        ContactEntry contact = contactsService.getEntry(feedUrl, ContactEntry.class);
+        return contact;
     }
 
 }

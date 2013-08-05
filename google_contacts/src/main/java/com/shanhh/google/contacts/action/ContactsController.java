@@ -32,7 +32,6 @@ public class ContactsController {
         
         List<ContactEntry> list = contactsListService.list(contactsService, null).getEntries();
         model.addAttribute("contactlist", list);
-        System.out.println(list.get(0).getContactPhotoLink());
         return "contactlist";
     }
     
@@ -43,7 +42,6 @@ public class ContactsController {
         
         List<ContactEntry> list = contactsListService.query(contactsService, query);
         model.addAttribute("contactlist", list);
-        System.out.println(list.get(0).getContactPhotoLink());
         return "contactlist";
     }
     
@@ -54,5 +52,14 @@ public class ContactsController {
         ContactEntry contact = contactsListService.update(contactsService, contactId, field, value);
         model.addAttribute("contact", contact);
         return contact;
+    }
+    
+    @RequestMapping("get")
+    public String get(String contactId, Model model, HttpServletRequest request) throws IOException, ServiceException {
+        ContactsService contactsService = (ContactsService) request.getSession().getAttribute("contactsService");
+        
+        ContactEntry contact = contactsListService.get(contactsService, contactId);
+        model.addAttribute("contact", contact);
+        return "contactprofile";
     }
 }

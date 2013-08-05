@@ -55,4 +55,6 @@ public interface ContactsOperService {
      * @throws SecurityException 
      */
     ContactEntry update(ContactsService contactsService, String contactId, String field, String value) throws IOException, ServiceException;
+    
+    ContactEntry get(ContactsService contactsService, String contactId) throws IOException, ServiceException;
 }

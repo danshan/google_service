@@ -3,6 +3,7 @@
   <thead>
     <tr>
       <th width="14px"><input type="checkbox"></th>
+      <th width="14px"></th>
       <th>F.Name</th>
       <th>G.Name</th>
       <th>Email</th>
@@ -14,6 +15,8 @@
       <tr>
         <!-- checkbox -->
         <td><input type="checkbox"><input type="hidden" name="contactId" value="${(contact.id)!}"></td>
+        <!-- edit button -->
+        <td><a class="icon-edit" href="contacts/get?contactId=${(contact.id)!}"></a></td>
         <!-- family name -->
         <td class="j-familyName">${(contact.name.familyName.value)!}</td>
         <!-- given name -->
