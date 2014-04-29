@@ -1,29 +1,24 @@
 package com.shanhh.google.contacts.filter;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 import com.shanhh.google.contacts.action.LoginContorller;
 import com.shanhh.google.contacts.config.ServiceConfig;
-import com.shanhh.google.core.common.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Class SecurityInterceptor.
  */
 public class AuthorityFilter implements Filter {
 
-    private static final Logger logger = Logger.getLogger(LoginContorller.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginContorller.class);
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

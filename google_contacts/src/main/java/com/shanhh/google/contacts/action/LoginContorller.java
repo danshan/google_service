@@ -1,16 +1,5 @@
 package com.shanhh.google.contacts.action;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
@@ -22,12 +11,22 @@ import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.util.ServiceException;
 import com.shanhh.google.contacts.config.ServiceConfig;
 import com.shanhh.google.contacts.service.ContactsOperService;
-import com.shanhh.google.core.common.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class LoginContorller {
 
-    private static final Logger logger = Logger.getLogger(LoginContorller.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginContorller.class);
 
     @Autowired
     private ContactsOperService contactsListService;
@@ -55,7 +54,6 @@ public class LoginContorller {
      * @param authorizationCode Authorization code to exchange for OAuth 2.0
      *        credentials.
      * @return OAuth 2.0 credentials.
-     * @throws CodeExchangeException An error occurred.
      */
     private Credential exchangeCode(String authorizationCode) {
         try {

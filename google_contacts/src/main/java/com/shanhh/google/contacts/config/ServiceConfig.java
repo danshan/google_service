@@ -1,12 +1,13 @@
 package com.shanhh.google.contacts.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
-
-import com.shanhh.google.core.common.Logger;
 
 /**
  * 从文件控制读取配置文件
@@ -15,7 +16,7 @@ import com.shanhh.google.core.common.Logger;
  */
 public class ServiceConfig {
     
-    private static Logger logger = Logger.getLogger(ServiceConfig.class);
+    private static Logger logger = LoggerFactory.getLogger(ServiceConfig.class);
     
     private static Properties p = new Properties();
     private static long lastModify = -1;
@@ -34,7 +35,7 @@ public class ServiceConfig {
     private static void reload() {
         FileInputStream fis = null;
         try {
-        	fis = new FileInputStream(configPath);
+            fis = new FileInputStream(configPath);
             p.load(fis);
         } catch (IOException e) {
             logger.error("cannot find file: {0}", e, ServiceConfig.class.getResource("/" + configPath).getPath());

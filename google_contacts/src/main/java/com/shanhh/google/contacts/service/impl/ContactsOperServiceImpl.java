@@ -1,12 +1,5 @@
 package com.shanhh.google.contacts.service.impl;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.google.common.base.Preconditions;
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.contacts.ContactEntry;
@@ -17,13 +10,20 @@ import com.google.gdata.data.extensions.Name;
 import com.google.gdata.util.ServiceException;
 import com.shanhh.google.contacts.config.Constant;
 import com.shanhh.google.contacts.service.ContactsOperService;
-import com.shanhh.google.core.common.Logger;
 import com.shanhh.google.core.common.SuperString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class ContactsOperServiceImpl implements ContactsOperService {
 
-    private static final Logger logger = Logger.getLogger(ContactsOperServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(ContactsOperServiceImpl.class);
     
     @Override
     public List<ContactEntry> listAll(ContactsService contactsService, URL feedUrl) throws IOException, ServiceException {

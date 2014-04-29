@@ -1,27 +1,26 @@
 package com.shanhh.google.contacts.action;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.google.gdata.client.contacts.ContactsService;
+import com.google.gdata.data.contacts.ContactEntry;
+import com.google.gdata.util.ServiceException;
+import com.shanhh.google.contacts.service.ContactsOperService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gdata.client.contacts.ContactsService;
-import com.google.gdata.data.contacts.ContactEntry;
-import com.google.gdata.util.ServiceException;
-import com.shanhh.google.contacts.service.ContactsOperService;
-import com.shanhh.google.core.common.Logger;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("contacts")
 public class ContactsController {
     
-    private static final Logger logger = Logger.getLogger(ContactsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ContactsController.class);
 
     @Autowired
     private ContactsOperService contactsListService;
